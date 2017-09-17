@@ -1,4 +1,4 @@
-* rails_autolink
+* html_format
 
 - http://github.com/akicho8/html_format
 
