@@ -12,7 +12,7 @@ gemspec
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
-group :development do
+group :development, :test do
   gem 'twitter-bootstrap-rails', '< 4.0.0'
   gem 'sass-rails'
   gem 'slim-rails'

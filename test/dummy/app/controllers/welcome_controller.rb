@@ -13,22 +13,22 @@ class WelcomeController < ApplicationController
 EOT
         },
         {
-          :name => "Array Of Array",
-          :code => <<~EOT,
-[
-  [1, "alice", "2000-01-01"],
-  [2, "bob",   "2000-01-02"],
-  [3, "carol", "2000-01-03"],
-].to_html
-EOT
-        },
-        {
           :name => "Hash",
           :code => %({id: 1, name: "alice", created_at: "2000-01-01"}.to_html),
         },
         {
+          :name => "Array Of Array",
+          :code => <<~EOT,
+[
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9],
+].to_html
+EOT
+        },
+        {
           :name => "Array",
-          :code => %(16.times.to_a.to_html),
+          :code => %([1, 2, 3].to_html),
         },
       ].collect { |e|
         out = []

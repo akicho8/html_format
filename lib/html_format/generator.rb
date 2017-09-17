@@ -8,8 +8,7 @@ module HtmlFormat
     table_class: 'table table-striped table-bordered table-hover',
     nesting: false,
     title_tag: :h2,
-
-    header_patch: false,     # ヘッダーがなければ追加する
+    header_patch: false,     # If there is no header, add it
     key_label: 'Key',
     value_label: 'Value',
   }
