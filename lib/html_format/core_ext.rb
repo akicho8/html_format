@@ -1,4 +1,4 @@
-require "active_support/core_ext/kernel/concern"
+require 'active_support/core_ext/kernel/concern'
 
 module HtmlFormat
   concern :ActiveRecord do
@@ -17,8 +17,12 @@ end
 Kernel.class_eval do
   private
 
-  def html_format(*args, &block)
-    HtmlFormat.generate(*args, &block)
+  def html_format(object, **options)
+    if object.respond_to?(:to_html)
+      object.to_html
+    else
+      HtmlFormat.generate(object, options)
+    end
   end
 end
 

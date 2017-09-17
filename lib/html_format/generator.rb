@@ -1,3 +1,7 @@
+require 'active_support/core_ext/module'
+require 'active_support/core_ext/string'
+require 'action_view'
+
 module HtmlFormat
   mattr_accessor :default_options
   self.default_options = {
@@ -15,6 +19,10 @@ module HtmlFormat
   end
 
   class Generator
+    include ActionView::Helpers::TagHelper
+
+    attr_accessor :output_buffer
+
     def self.generate(*args, &block)
       if block_given?
         object = yield
@@ -174,14 +182,6 @@ module HtmlFormat
           },
         },
       ]
-    end
-
-    def h
-      ApplicationController.helpers
-    end
-
-    def content_tag(*args, &block)
-      h.content_tag(*args, &block)
     end
 
     def tr(&block)
