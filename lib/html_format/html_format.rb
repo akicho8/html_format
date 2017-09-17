@@ -11,10 +11,10 @@ module HtmlFormat
   }
 
   def self.generate(*args, &block)
-    Base.generate(*args, &block)
+    Generator.generate(*args, &block)
   end
 
-  class Base
+  class Generator
     def self.generate(*args, &block)
       if block_given?
         object = yield
@@ -81,7 +81,7 @@ module HtmlFormat
         # [b][2]
         {
           _case: -> e { e.kind_of?(Hash) },
-          css_class: 'qt_type_hash',
+          css_class: 'html_format_type_hash',
           header_patch: -> e {
             content_tag(:thead) do
               tr do
@@ -104,7 +104,7 @@ module HtmlFormat
         # [3][4]
         {
           _case: -> e { e.kind_of?(Array) && e.all?{|e|e.kind_of?(Hash)} },
-          css_class: 'qt_type_array_of_hash',
+          css_class: 'html_format_type_array_of_hash',
           process: -> e {
             keys = e.inject([]) { |a, e| a | e.keys }
             body = ''.html_safe
@@ -129,7 +129,7 @@ module HtmlFormat
         # [3][4]
         {
           _case: -> e { e.kind_of?(Array) && e.all?{|e|e.kind_of?(Array)} },
-          css_class: 'qt_type_array_of_array',
+          css_class: 'html_format_type_array_of_array',
           header_patch: -> e {
             if e.first.kind_of?(Array)
               content_tag(:thead) do
@@ -152,7 +152,7 @@ module HtmlFormat
         # [a][b]
         {
           _case: -> e { e.kind_of?(Array) },
-          css_class: 'qt_type_array',
+          css_class: 'html_format_type_array',
           process: -> e {
             content_tag(:tbody) do
               tr do
@@ -166,7 +166,7 @@ module HtmlFormat
         # [a]
         {
           _case: -> e { true },
-          css_class: 'qt_type_object',
+          css_class: 'html_format_type_object',
           process: -> e {
             content_tag(:tbody) do
               tr { td(e) }
