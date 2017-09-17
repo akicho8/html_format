@@ -1,4 +1,4 @@
-HtmlFormat.default_options[:table_class] = "table table-striped table-bordered table-hover table-condensed"
+HtmlFormat.default_options[:table_class] = "table table-striped table-bordered table-hover"
 
 [
   {

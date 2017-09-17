@@ -5,7 +5,7 @@ require 'action_view'
 module HtmlFormat
   mattr_accessor :default_options
   self.default_options = {
-    table_class: '',
+    table_class: 'table table-striped table-bordered table-hover',
     nesting: false,
     title_tag: :h2,
 

@@ -1,7 +1,6 @@
 class WelcomeController < ApplicationController
   def index
     body = view_context.instance_eval do
-      HtmlFormat.default_options[:table_class] = "table table-striped table-bordered table-hover table-condensed"
       [
         {
           :name => "Array Of Hash",
