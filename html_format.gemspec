@@ -1,17 +1,17 @@
 $:.push File.expand_path("../lib", __FILE__)
 
 # Maintain your gem's version:
-require "quick_table/version"
+require "html_format/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name        = "quick_table"
-  s.version     = QuickTable::VERSION
+  s.name        = "html_format"
+  s.version     = HtmlFormat::VERSION
   s.authors     = ["akicho8"]
   s.email       = ["akicho8@gmail.com"]
   s.homepage    = ""
-  s.summary     = "Summary of QuickTable."
-  s.description = "Description of QuickTable."
+  s.summary     = "Summary of HtmlFormat."
+  s.description = "Description of HtmlFormat."
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]

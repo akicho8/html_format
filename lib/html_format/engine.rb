@@ -1,8 +1,8 @@
-module QuickTable
+module HtmlFormat
   class Engine < Rails::Engine
-    initializer "quick_table" do
+    initializer "html_format" do
       ActiveSupport.on_load(:active_record) do
-        include QuickTable::ActiveRecord
+        include HtmlFormat::ActiveRecord
       end
     end
   end

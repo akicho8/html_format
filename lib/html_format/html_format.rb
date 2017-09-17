@@ -1,4 +1,4 @@
-module QuickTable
+module HtmlFormat
   mattr_accessor :default_options
   self.default_options = {
     table_class: '',
@@ -17,29 +17,29 @@ module QuickTable
   class Base
     def self.generate(*args, &block)
       if block_given?
-        obj = yield
+        object = yield
         options = args.extract_options!
       else
         if args.size == 0
           return
         elsif args.size == 1
-          obj = args.first
+          object = args.first
           options = {}
         else
           options = args.extract_options!
           if args.size > 1
-            obj = args
+            object = args
           else
-            obj = args.first
+            object = args.first
           end
         end
       end
 
-      new(options).generate(obj)
+      new(options).generate(object)
     end
 
     def initialize(options)
-      @options = QuickTable.default_options.merge(depth: 0).merge(options)
+      @options = HtmlFormat.default_options.merge(depth: 0).merge(options)
     end
 
     def generate(obj)
@@ -69,7 +69,7 @@ module QuickTable
           body = content_tag(@options[:title_tag], @options[:title], :class => 'title') + body
         end
       end
-      content_tag(:div, body, :class => "quick_table quick_table_depth_#{@options[:depth]}")
+      content_tag(:div, body, :class => "html_format html_format_depth_#{@options[:depth]}")
     end
 
     private

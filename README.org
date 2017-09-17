@@ -3,24 +3,24 @@
 ** Examples
 
 #+BEGIN_SRC ruby
-quick_table { {:a => 1, :b => 2} }
+html_format { {:a => 1, :b => 2} }
 # => [a][1]
 # => [b][2]
 
-quick_table { [{:a => 1, :b => 2}, {:a => 3, :b => 4}] }
+html_format { [{:a => 1, :b => 2}, {:a => 3, :b => 4}] }
 # => [a][b]
 # => [1][2]
 # => [3][4]
 
-quick_table { [[:a, :b], [ 1,  2], [ 3,  4]] }
+html_format { [[:a, :b], [ 1,  2], [ 3,  4]] }
 # => [a][b]
 # => [1][2]
 # => [3][4]
 
-quick_table { [:a, :b] }
+html_format { [:a, :b] }
 # => [a][b]
 
-quick_table { :a }
+html_format { :a }
 # => [a]
 #+END_SRC
 
