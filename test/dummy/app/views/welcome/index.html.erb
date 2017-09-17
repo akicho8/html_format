@@ -1,5 +1,7 @@
 <% table_class = "table table-striped table-bordered table-hover table-condensed" %>
-<% options = {:table_class => table_class} %>
+<% options = {table_class: table_class} %>
+
+<%= {:id => 1, :name => "alice", :created_at => ""}.to_quick_table(options) %>
 
 <%- long = "あ(%)" * 20 %>
 <%- long2 = "あ(%)" * 10 %>
@@ -11,7 +13,7 @@
 <%= [{long => long2}, {long => long2}, {long => long2}, {long => long2}].to_quick_table %>
 <%#= nil.to_quick_table %>
 
-<% if false %>
+<% if true %>
   <%= quick_table(options) {} %>
   <%= quick_table(options) { :a } %>
   <%= quick_table(options) { {:a => 1, :b => 1} } %>

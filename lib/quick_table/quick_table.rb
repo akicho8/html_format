@@ -1,17 +1,13 @@
-#
-# オブジェクトをHTMLのテーブルにして出力
-#
-
 module QuickTable
   mattr_accessor :default_options
   self.default_options = {
-    :table_class  => "",
-    :nesting      => false,
-    :title_tag    => :h2,
+    table_class: '',
+    nesting: false,
+    title_tag: :h2,
 
-    :header_patch => false,     # ヘッダーがなければ追加する
-    :key_label    => "Key",
-    :value_label  => "Value",
+    header_patch: false,     # ヘッダーがなければ追加する
+    key_label: 'Key',
+    value_label: 'Value',
   }
 
   def self.generate(*args, &block)
@@ -43,14 +39,14 @@ module QuickTable
     end
 
     def initialize(options)
-      @options = QuickTable.default_options.merge(:depth => 0).merge(options)
+      @options = QuickTable.default_options.merge(depth: 0).merge(options)
     end
 
     def generate(obj)
       return if obj.blank?
 
-      info = function_table.find { |e| e[:if].call(obj) }
-      body = "".html_safe
+      info = function_table.find { |e| e[:_case].call(obj) }
+      body = ''.html_safe
       if true
         if @options[:caption].present?
           body << content_tag(:caption, @options[:caption])
@@ -63,16 +59,14 @@ module QuickTable
           end
         end
       end
-      body << info[:code].call(obj)
+      body << info[:process].call(obj)
       body = content_tag(:table, body, :class => table_class(info))
       if @options[:depth].zero?
         if @options[:responsive]
-          body = content_tag(:div, body, :class => "table-responsive")
+          body = content_tag(:div, body, :class => 'table-responsive')
         end
-        if true
-          if @options[:title].present?
-            body = content_tag(@options[:title_tag], @options[:title], :class => "title") + body
-          end
+        if @options[:title].present?
+          body = content_tag(@options[:title_tag], @options[:title], :class => 'title') + body
         end
       end
       content_tag(:div, body, :class => "quick_table quick_table_depth_#{@options[:depth]}")
@@ -82,20 +76,20 @@ module QuickTable
 
     def function_table
       [
-        # {:a => 1, :b => 2}
+        # {a: 1, b: 2}
         # [a][1]
         # [b][2]
         {
-          :if => -> e { e.kind_of?(Hash) },
-          :class => "qt_type_hash",
-          :header_patch => -> e {
+          _case: -> e { e.kind_of?(Hash) },
+          css_class: 'qt_type_hash',
+          header_patch: -> e {
             content_tag(:thead) do
               tr do
                 th(@options[:key_label]) + th(@options[:value_label])
               end
             end
           },
-          :code => -> e {
+          process: -> e {
             e.collect {|key, val|
               tr do
                 th(key) + td(val)
@@ -104,16 +98,16 @@ module QuickTable
           },
         },
 
-        # [{:a => 1, :b => 2}, {:a => 3, :b => 4}]
+        # [{a: 1, b: 2}, {a: 3, b: 4}]
         # [a][b]
         # [1][2]
         # [3][4]
         {
-          :if => -> e { e.kind_of?(Array) && e.all?{|e|e.kind_of?(Hash)} },
-          :class => "qt_type_array_of_hash",
-          :code => -> e {
+          _case: -> e { e.kind_of?(Array) && e.all?{|e|e.kind_of?(Hash)} },
+          css_class: 'qt_type_array_of_hash',
+          process: -> e {
             keys = e.inject([]) { |a, e| a | e.keys }
-            body = "".html_safe
+            body = ''.html_safe
             body += content_tag(:thead) do
               tr do
                 keys.collect {|e| th(e) }.join.html_safe
@@ -134,16 +128,16 @@ module QuickTable
         # [1][2]
         # [3][4]
         {
-          :if => -> e { e.kind_of?(Array) && e.all?{|e|e.kind_of?(Array)} },
-          :class => "qt_type_array_of_array",
-          :header_patch => -> e {
+          _case: -> e { e.kind_of?(Array) && e.all?{|e|e.kind_of?(Array)} },
+          css_class: 'qt_type_array_of_array',
+          header_patch: -> e {
             if e.first.kind_of?(Array)
               content_tag(:thead) do
-                e.first.collect { td("") }.join.html_safe # カラムの意味はわからないので空ラベルとする
+                e.first.collect { td('') }.join.html_safe # カラムの意味はわからないので空ラベルとする
               end
             end
           },
-          :code => -> e {
+          process: -> e {
             content_tag(:tbody) do
               e.collect { |elems|
                 tr do
@@ -157,9 +151,9 @@ module QuickTable
         # [:a, :b]
         # [a][b]
         {
-          :if => -> e { e.kind_of?(Array) },
-          :class => "qt_type_array",
-          :code => -> e {
+          _case: -> e { e.kind_of?(Array) },
+          css_class: 'qt_type_array',
+          process: -> e {
             content_tag(:tbody) do
               tr do
                 e.collect { |e| td(e) }.join.html_safe
@@ -171,9 +165,9 @@ module QuickTable
         # :a
         # [a]
         {
-          :if => -> e { true },
-          :class => "qt_type_object",
-          :code => -> e {
+          _case: -> e { true },
+          css_class: 'qt_type_object',
+          process: -> e {
             content_tag(:tbody) do
               tr { td(e) }
             end
@@ -205,7 +199,7 @@ module QuickTable
     def value_as_string(val)
       if val.kind_of?(Array) || val.kind_of?(Hash)
         if @options[:nesting]
-          self.class.generate(@options.merge(:depth => @options[:depth].next)) { val }
+          self.class.generate(@options.merge(depth: @options[:depth].next)) { val }
         else
           val
         end
@@ -216,11 +210,11 @@ module QuickTable
 
     def table_class(info)
       if @options[:depth] == 0
-        # return "table table-condensed table-bordered table-striped"
-        "table #{info[:class]} #{@options[:table_class]}".squish.scan(/\S+/).uniq.join(" ")
+        # return 'table table-condensed table-bordered table-striped'
+        "table #{info[:css_class]} #{@options[:table_class]}".squish.scan(/\S+/).uniq.join(' ')
       else
         # 入れ子になったテーブルは小さめにして装飾を避ける
-        "table table-condensed"
+        'table table-condensed'
       end
     end
   end

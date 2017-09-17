@@ -20,17 +20,13 @@ Kernel.class_eval do
   def quick_table(*args, &block)
     QuickTable.generate(*args, &block)
   end
-
-  def qt(*args, &block)
-    QuickTable.generate(*args, &block).display
-  end
 end
 
 [Array, Symbol, String, Hash, Numeric, TrueClass, FalseClass, NilClass].each do |e|
   e.class_eval do
     def to_quick_table(**options)
       table_class = [options[:table_class], "qt_#{self.class.name.underscore}"].compact.join(" ")
-      QuickTable.generate(self, options.merge(:table_class => table_class))
+      QuickTable.generate(self, options.merge(table_class: table_class))
     end
   end
 end

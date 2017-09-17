@@ -1,18 +1,18 @@
 .quick_table
-  /* 横スクロールバー表示
+  /* Horizontal scroll bar display
   overflow-x: auto
 
-  /* 基本改行なし
+  /* No line break
   white-space: nowrap
 
-  /* しかしツールチップ内は改行する
+  /* But the line inside the tool tip breaks
   .tooltip
     white-space: normal
 
-  /* ハッシュを表示した場合(左の列にキーがあるタイプ)ではキーを右寄せにする
+  /* When hash is displayed (type with key in the left column), right key the key
   table.qt_type_hash > tbody > tr > th
     text-align: right
 
-  /* ヘッダー内の th がつっぱると隙間が多くなるためヘッダは改行してもいい
+  /* If th in the header is tight, gaps are increased so header can be changed to a new line
   table.qt_type_array_of_hash thead
     white-space: normal
