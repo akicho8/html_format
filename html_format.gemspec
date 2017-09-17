@@ -10,8 +10,8 @@ Gem::Specification.new do |s|
   s.authors     = ["akicho8"]
   s.email       = ["akicho8@gmail.com"]
   s.homepage    = ""
-  s.summary     = "Summary of HtmlFormat."
-  s.description = "Description of HtmlFormat."
+  s.summary     = "A small library that easily converts various objects to HTML"
+  s.description = "A small library that easily converts various objects to HTML"
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
