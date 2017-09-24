@@ -15,5 +15,4 @@ gemspec
 group :development, :test do
   gem 'twitter-bootstrap-rails', '< 4.0.0'
   gem 'sass-rails'
-  gem 'slim-rails'
 end
