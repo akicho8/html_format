@@ -27,6 +27,7 @@ $ bundle install
 *** Using to_html is easiest
 
 #+BEGIN_SRC ruby
+#+BEGIN_SRC ruby
 # Array of Hash
 [
   {id: 1, name: "alice", created_at: "2000-01-01"},
@@ -60,4 +61,15 @@ html_format(1) # => "<div class=\"html_format html_format_depth_0\"><table class
 cd test/dummy
 rails s
 open http://localhost:3000/
+#+END_SRC
+
+** When combined with Rails and bootstrap
+
+app/assets/stylesheets/application.css
+
+#+BEGIN_SRC css
+/*
+ *= require html_format/control
+ *= require twitter-bootstrap-static/bootstrap
+ */
 #+END_SRC
