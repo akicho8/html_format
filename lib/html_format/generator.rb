@@ -54,58 +54,63 @@ module HtmlFormat
 
       info = function_table.find { |e| e[:_case].call(obj) }
       body = ''.html_safe
-      if true
-        if @options[:caption].present?
-          body << content_tag(:caption, @options[:caption])
-        end
+
+      if v = @options[:caption].presence
+        body << v
       end
       if @options[:header_patch]
-        if info[:header_patch]
-          if v = info[:header_patch].call(obj)
+        if info[:header_process]
+          if v = info[:header_process].call(obj)
             body << v
           end
         end
       end
       body << info[:process].call(obj)
-      body = content_tag(:table, body, :class => table_class(info))
+      body = tag.table(body, :class => table_class(info))
       if @options[:depth].zero?
         if @options[:responsive]
-          body = content_tag(:div, body, :class => 'table-responsive')
+          body = tag.div(body, :class => 'table-responsive')
         end
         if @options[:title].present?
-          body = content_tag(@options[:title_tag], @options[:title], :class => 'title') + body
+          body = tag.(@options[:title_tag], @options[:title], :class => 'title') + body
         end
       end
-      content_tag(:div, body, :class => ['html_format', "html_format_depth_#{@options[:depth]}"])
+      tag.div(body, :class => ['html_format', "html_format_depth_#{@options[:depth]}"])
     end
 
     private
 
     def function_table
       [
+        # Hash
+        #
         # {a: 1, b: 2}
+        #
         # [a][1]
         # [b][2]
         {
           _case: -> e { e.kind_of?(Hash) },
           css_class: 'html_format_type_hash',
-          header_patch: -> e {
-            content_tag(:thead) do
-              tr do
-                th(@options[:key_label]) + th(@options[:value_label])
+          header_process: -> e {
+            tag.thead do
+              tag.tr do
+                tag.th(@options[:key_label]) + tag.th(@options[:value_label])
               end
             end
           },
           process: -> e {
             e.collect {|key, val|
-              tr do
-                th(key) + td(val)
+              tag.tr do
+                tag.th(key) + td(val)
               end
             }.join.html_safe
           },
         },
 
+        # Array of Hash
+        #
         # [{a: 1, b: 2}, {a: 3, b: 4}]
+        #
         # [a][b]
         # [1][2]
         # [3][4]
@@ -115,14 +120,14 @@ module HtmlFormat
           process: -> e {
             keys = e.inject([]) { |a, e| a | e.keys }
             body = ''.html_safe
-            body += content_tag(:thead) do
-              tr do
-                keys.collect {|e| th(e) }.join.html_safe
+            body += tag.thead do
+              tag.tr do
+                keys.collect {|e| tag.th(e) }.join.html_safe
               end
             end
-            body + content_tag(:tbody) do
+            body + tag.tbody do
               e.collect { |hash|
-                tr do
+                tag.tr do
                   keys.collect { |key| td(hash[key]) }.join.html_safe
                 end
               }.join.html_safe
@@ -130,24 +135,28 @@ module HtmlFormat
           },
         },
 
+        # Array of Array
+        #
         # [[:a, :b], [ 1,  2], [ 3,  4]]
+        #
         # [a][b]
         # [1][2]
         # [3][4]
         {
           _case: -> e { e.kind_of?(Array) && e.all?{|e|e.kind_of?(Array)} },
           css_class: 'html_format_type_array_of_array',
-          header_patch: -> e {
+          header_process: -> e {
             if e.first.kind_of?(Array)
-              content_tag(:thead) do
-                e.first.collect { td('') }.join.html_safe # カラムの意味はわからないので空ラベルとする
+              tag.thead do
+                # I do not know the meaning of the column so make it empty label
+                e.first.collect { td('') }.join.html_safe
               end
             end
           },
           process: -> e {
-            content_tag(:tbody) do
+            tag.tbody do
               e.collect { |elems|
-                tr do
+                tag.tr do
                   elems.collect { |e| td(e) }.join.html_safe
                 end
               }.join.html_safe
@@ -155,44 +164,42 @@ module HtmlFormat
           },
         },
 
+        # Array
+        #
         # [:a, :b]
+        #
         # [a][b]
         {
           _case: -> e { e.kind_of?(Array) },
           css_class: 'html_format_type_array',
           process: -> e {
-            content_tag(:tbody) do
-              tr do
+            tag.tbody do
+              tag.tr do
                 e.collect { |e| td(e) }.join.html_safe
               end
             end
           },
         },
 
+        # Ohter
+        #
         # :a
+        #
         # [a]
         {
           _case: -> e { true },
           css_class: 'html_format_type_object',
           process: -> e {
-            content_tag(:tbody) do
-              tr { td(e) }
+            tag.tbody do
+              tag.tr { td(e) }
             end
           },
         },
       ]
     end
 
-    def tr(&block)
-      content_tag(:tr, &block)
-    end
-
-    def th(val)
-      content_tag(:th, val)
-    end
-
     def td(val)
-      content_tag(:td, value_as_string(val))
+      tag.td(value_as_string(val))
     end
 
     def value_as_string(val)
