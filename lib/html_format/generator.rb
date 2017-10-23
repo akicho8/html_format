@@ -5,7 +5,7 @@ require 'action_view'
 module HtmlFormat
   mattr_accessor :default_options
   self.default_options = {
-    table_class: 'table table-striped table-bordered table-hover',
+    table_class: ['table', 'table-striped', 'table-bordered', 'table-hover'],
     nesting: false,
     title_tag: :h2,
     header_patch: false,     # If there is no header, add it
@@ -76,7 +76,7 @@ module HtmlFormat
           body = content_tag(@options[:title_tag], @options[:title], :class => 'title') + body
         end
       end
-      content_tag(:div, body, :class => "html_format html_format_depth_#{@options[:depth]}")
+      content_tag(:div, body, :class => ['html_format', "html_format_depth_#{@options[:depth]}"])
     end
 
     private
@@ -209,11 +209,10 @@ module HtmlFormat
 
     def table_class(info)
       if @options[:depth] == 0
-        # return 'table table-condensed table-bordered table-striped'
-        "table #{info[:css_class]} #{@options[:table_class]}".squish.scan(/\S+/).uniq.join(' ')
+        ['table', info[:css_class], @options[:table_class]].join(' ').squish.scan(/\S+/).uniq.join(' ')
       else
-        # 入れ子になったテーブルは小さめにして装飾を避ける
-        'table table-condensed'
+        # Keep nested tables small and avoid decorations
+        ['table', 'table-condensed']
       end
     end
   end
