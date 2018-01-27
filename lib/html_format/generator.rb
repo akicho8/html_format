@@ -72,7 +72,7 @@ module HtmlFormat
           body = tag.div(body, :class => 'table-responsive')
         end
         if @options[:title].present?
-          body = tag.(@options[:title_tag], @options[:title], :class => 'title') + body
+          body = tag.send(@options[:title_tag], @options[:title], :class => 'title') + body
         end
       end
       tag.div(body, :class => ['html_format', "html_format_depth_#{@options[:depth]}"])
@@ -216,7 +216,7 @@ module HtmlFormat
 
     def table_class(info)
       if @options[:depth] == 0
-        ['table', info[:css_class], @options[:table_class]].join(' ').squish.scan(/\S+/).uniq.join(' ')
+        [@options[:table_class], info[:css_class]].join(' ').squish.scan(/\S+/).uniq.join(' ')
       else
         # Keep nested tables small and avoid decorations
         ['table', 'table-condensed']
