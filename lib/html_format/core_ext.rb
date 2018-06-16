@@ -17,9 +17,13 @@ end
 Kernel.class_eval do
   private
 
-  def html_format(object, **options)
+  def html_format(object = nil, options = {}, &block)
+    if block
+      options = object || {}
+      object = yield
+    end
     if object.respond_to?(:to_html)
-      object.to_html
+      object.to_html(options)
     else
       HtmlFormat.generate(object, options)
     end
