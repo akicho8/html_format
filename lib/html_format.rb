@@ -20,15 +20,3 @@ else
     Mongoid::Document.include(HtmlFormat::ActiveRecord)
   end
 end
-
-if defined?(Tapp)
-  module Tapp::Printer
-    class HtmlFormat < Base
-      def print(*args)
-        puts html_format(*args)
-      end
-    end
-
-    register :html_format, HtmlFormat
-  end
-end
