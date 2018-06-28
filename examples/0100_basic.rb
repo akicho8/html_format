@@ -25,4 +25,3 @@ v = [
 v.to_html # => "<div class=\"html_format html_format_depth_0\"><table class=\"table table-striped table-bordered table-hover html_format_type_array_of_array\"><tbody><tr><td>1</td><td>2</td><td>3</td></tr><tr><td>4</td><td>5</td><td>6</td></tr><tr><td>7</td><td>8</td><td>9</td></tr></tbody></table></div>"
 
 [0, 1, 2, 3].to_html # => "<div class=\"html_format html_format_depth_0\"><table class=\"table table-striped table-bordered table-hover html_format_type_array\"><tbody><tr><td>0</td><td>1</td><td>2</td><td>3</td></tr></tbody></table></div>"
-
