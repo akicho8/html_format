@@ -6,6 +6,7 @@ module HtmlFormat
   mattr_accessor :default_options
   self.default_options = {
     table_class: ['table', 'table-striped', 'table-bordered', 'table-hover'],
+    sub_table_class: ['table', 'table-condensed'],
     nesting: false,
     title_tag: :h2,
     header_patch: false,     # If there is no header, add it
@@ -219,7 +220,7 @@ module HtmlFormat
         [@options[:table_class], info[:css_class]].join(' ').squish.scan(/\S+/).uniq.join(' ')
       else
         # Keep nested tables small and avoid decorations
-        ['table', 'table-condensed']
+        @options[:sub_table_class]
       end
     end
   end
