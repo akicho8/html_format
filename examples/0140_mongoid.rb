@@ -14,10 +14,13 @@ end
 
 ['alice', 'bob', 'carol'].each { |e| User.create!(name: e) }
 
-html_format User          # => "<div class=\"html_format html_format_depth_0\"><table class=\"table table-striped table-bordered table-hover html_format_type_array_of_hash\"><thead><tr><th>_id</th><th>name</th></tr></thead><tbody><tr><td>5b34406cf6453f07063d4dd3</td><td>alice</td></tr><tr><td>5b34406cf6453f07063d4dd4</td><td>bob</td></tr><tr><td>5b34406cf6453f07063d4dd5</td><td>carol</td></tr></tbody></table></div>"
-html_format User.first    # => "<div class=\"html_format html_format_depth_0\"><table class=\"table table-striped table-bordered table-hover html_format_type_hash\"><tr><th>_id</th><td>5b34406cf6453f07063d4dd3</td></tr><tr><th>name</th><td>alice</td></tr></table></div>"
-html_format User.limit(1) # => "<div class=\"html_format html_format_depth_0\"><table class=\"table table-striped table-bordered table-hover html_format_type_array_of_hash\"><thead><tr><th>_id</th><th>name</th></tr></thead><tbody><tr><td>5b34406cf6453f07063d4dd3</td><td>alice</td></tr></tbody></table></div>"
+html_format User          # => 
+html_format User.first    # => 
+html_format User.limit(1) # => 
 
-User.to_html              # => "<div class=\"html_format html_format_depth_0\"><table class=\"table table-striped table-bordered table-hover html_format_type_array_of_hash\"><thead><tr><th>_id</th><th>name</th></tr></thead><tbody><tr><td>5b34406cf6453f07063d4dd3</td><td>alice</td></tr><tr><td>5b34406cf6453f07063d4dd4</td><td>bob</td></tr><tr><td>5b34406cf6453f07063d4dd5</td><td>carol</td></tr></tbody></table></div>"
-User.first.to_html        # => "<div class=\"html_format html_format_depth_0\"><table class=\"table table-striped table-bordered table-hover html_format_type_hash\"><tr><th>_id</th><td>5b34406cf6453f07063d4dd3</td></tr><tr><th>name</th><td>alice</td></tr></table></div>"
-User.limit(1).to_html     # => "<div class=\"html_format html_format_depth_0\"><table class=\"table table-striped table-bordered table-hover html_format_type_array_of_hash\"><thead><tr><th>_id</th><th>name</th></tr></thead><tbody><tr><td>5b34406cf6453f07063d4dd3</td><td>alice</td></tr></tbody></table></div>"
+User.to_html              # => 
+User.first.to_html        # => 
+User.limit(1).to_html     # => 
+# ~> <internal:/usr/local/var/rbenv/versions/3.2.1/lib/ruby/site_ruby/3.2.0/rubygems/core_ext/kernel_require.rb>:148:in `require': cannot load such file -- mongoid (LoadError)
+# ~> 	from <internal:/usr/local/var/rbenv/versions/3.2.1/lib/ruby/site_ruby/3.2.0/rubygems/core_ext/kernel_require.rb>:148:in `require'
+# ~> 	from -:3:in `<main>'

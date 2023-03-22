@@ -13,6 +13,10 @@ gemspec
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 group :development, :test do
-  gem 'twitter-bootstrap-rails', '< 4.0.0'
   gem 'sass-rails'
+end
+
+group :test do
+  gem 'rspec'
+  gem 'test-unit'
 end

@@ -10,7 +10,7 @@ else
       include HtmlFormat::ActiveRecord
 
       ActiveRecord::Result.class_eval do
-        def to_html(**options)
+        def to_html(options = {})
           HtmlFormat.generate(collect(&:to_h), options)
         end
       end

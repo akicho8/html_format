@@ -70,6 +70,5 @@ app/assets/stylesheets/application.css
 #+BEGIN_SRC css
 /*
  *= require html_format/control
- *= require twitter-bootstrap-static/bootstrap
  */
 #+END_SRC
